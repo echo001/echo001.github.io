@@ -7,14 +7,14 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="0x01、漏洞描述SSRF是一种常见的Web漏洞，通常存在于需要请求外部内容的逻辑，当攻击者传入一个未经验证的URL，后端代码直接请求该URL，会造成SSRF漏洞。是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF的攻击目标是外网无法访问的内部系统，一大利用是探测内网端口开放信息，对于内网不是Web服务的，一般是返回端口对应服务的banner信息。Weblogic SSRF">
-<meta name="keywords" content="SSRF">
+<meta name="keywords" content="SSRF,网络安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSRF漏洞基础（一）">
 <meta property="og:url" content="http://yoursite.com/2019/02/21/SSRF漏洞基础（一）/index.html">
 <meta property="og:site_name" content="Dim">
 <meta property="og:description" content="0x01、漏洞描述SSRF是一种常见的Web漏洞，通常存在于需要请求外部内容的逻辑，当攻击者传入一个未经验证的URL，后端代码直接请求该URL，会造成SSRF漏洞。是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF的攻击目标是外网无法访问的内部系统，一大利用是探测内网端口开放信息，对于内网不是Web服务的，一般是返回端口对应服务的banner信息。Weblogic SSRF">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-21T06:54:43.735Z">
+<meta property="og:updated_time" content="2019-02-21T07:13:59.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSRF漏洞基础（一）">
 <meta name="twitter:description" content="0x01、漏洞描述SSRF是一种常见的Web漏洞，通常存在于需要请求外部内容的逻辑，当攻击者传入一个未经验证的URL，后端代码直接请求该URL，会造成SSRF漏洞。是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF的攻击目标是外网无法访问的内部系统，一大利用是探测内网端口开放信息，对于内网不是Web服务的，一般是返回端口对应服务的banner信息。Weblogic SSRF">
@@ -136,7 +136,7 @@
       
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/SSRF/">SSRF</a>
+        <a class="tag-link" href="/tags/SSRF/">SSRF</a>, <a class="tag-link" href="/tags/网络安全/">网络安全</a>
     </div>
 
 
@@ -145,8 +145,8 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>0x01、漏洞描述<br>SSRF是一种常见的Web漏洞，通常存在于需要请求外部内容的逻辑，当攻击者传入一个未经验证的URL，后端代码直接请求该URL，会造成SSRF漏洞。是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF的攻击目标是外网无法访问的内部系统，一大利用是探测内网端口开放信息，对于内网不是Web服务的，一般是返回端口对应服务的banner信息。<br>Weblogic SSRF漏洞出现在UDDI组件（若安装Weblogic时没有选择UDDI组件则不会有该漏洞），更准确地说是UDDI包实现包uddiexplorer.war下的SearchPublicRegistries.jsp。<br>例如：<br>一个正常的请求为：<a href="http://www.xxx.com/a.php?image=http://www.abc.com/1.jpg" target="_blank" rel="noopener">www.xxx.com/a.php?image=http://www.abc.com/1.jpg</a><br>若将image后的网址换成与该服务器相连的内网服务器地址，若服务器端没有对获取的参数做出严格过滤及限制，则导致可以从外部服务器获取到内部服务器一定量的数据。<br>注：IPv4协议下的内网IP段是预留出来的。10.0.0.0-10.255.255.255；172.16.0.0-172.31.255.255；192.168.0.0-192.168.255.255</p>
-<p>0x02、漏洞检测<br>SSRF漏洞常出现于：(1)通过URL地址来分享网页内容；(2)图片加载与下载；(3)URL关键字如：share,url,target,disploy,link,wap,link,sre,operator,imageurl等<br>检测方法通常通过排除法。(1)若有图片等，通过新打开窗口上显示的URL判断，若地址栏是<a href="http://xxx.xxx.png,则无。(2)抓包看是否有关键字如”url=http”(如下图1所示)，再进行后续判断，（如：SSRF是服务器端发起的，若加载一个图片，在本地浏览器中还存在对图片的请求，则无）在包里修改url的信息构造不同的请求，然后观察返回的状态码来探测信息。" target="_blank" rel="noopener">http://xxx.xxx.png,则无。(2)抓包看是否有关键字如”url=http”(如下图1所示)，再进行后续判断，（如：SSRF是服务器端发起的，若加载一个图片，在本地浏览器中还存在对图片的请求，则无）在包里修改url的信息构造不同的请求，然后观察返回的状态码来探测信息。</a></p>
+    <p>0x01、漏洞描述<br>SSRF是一种常见的Web漏洞，通常存在于需要请求外部内容的逻辑，当攻击者传入一个未经验证的URL，后端代码直接请求该URL，会造成SSRF漏洞。是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF的攻击目标是外网无法访问的内部系统，一大利用是探测内网端口开放信息，对于内网不是Web服务的，一般是返回端口对应服务的banner信息。<br>Weblogic SSRF漏洞出现在UDDI组件（若安装Weblogic时没有选择UDDI组件则不会有该漏洞），更准确地说是UDDI包实现包uddiexplorer.war下的SearchPublicRegistries.jsp。<br>例如：<br>一个正常的请求为：<code>www.xxx.com/a.php?image=http://www.abc.com/1.jpg</code><br>若将image后的网址换成与该服务器相连的内网服务器地址，若服务器端没有对获取的参数做出严格过滤及限制，则导致可以从外部服务器获取到内部服务器一定量的数据。<br>注：IPv4协议下的内网IP段是预留出来的。10.0.0.0-10.255.255.255；172.16.0.0-172.31.255.255；192.168.0.0-192.168.255.255</p>
+<p>0x02、漏洞检测<br>SSRF漏洞常出现于：(1)通过URL地址来分享网页内容；(2)图片加载与下载；(3)URL关键字如：share,url,target,disploy,link,wap,link,sre,operator,imageurl等<br>检测方法通常通过排除法。(1)若有图片等，通过新打开窗口上显示的URL判断，若地址栏是<code>http://xxx.xxx.png,则无。(2)抓包看是否有关键字如”url=http”(如下图1所示)，再进行后续判断，（如：SSRF是服务器端发起的，若加载一个图片，在本地浏览器中还存在对图片的请求，则无）在包里修改url的信息构造不同的请求，然后观察返回的状态码来探测信息。</code></p>
 <p>图1 关键字“url”<br>上图1对127.0.0.1的80端口返回了200。再次构造请求，使HTTP请求404，如下图2所示，返回状态码500，以及构造一个端口不开放的请求，使TCP连接被拒绝。同时也返回了500，如下图3所示。说明url参数后，该服务器确实进行了请求，可以初步判断该服务器存在SSRF漏洞。</p>
 <p>图2 请求不存在的页面返回500</p>
 <p>图3 请求未开放的端口返回500<br>关于SSRF比较清晰的挖掘思路如下图所示：</p>
