@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA['SSRF漏洞基础']]></title>
-    <url>%2F2019%2F02%2F21%2FSSRF%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80%2F</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
     <title><![CDATA[TEST,HEXO]]></title>
     <url>%2F2019%2F01%2F22%2FTEST-HEXO%2F</url>
     <content type="text"><![CDATA[This is a test article.]]></content>
